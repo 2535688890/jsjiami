@@ -47,6 +47,11 @@ function parseObject(path) {
       } else if (t.isLogicalExpression(retStmt.argument)) {
         // 逻辑判断类型
         repfunc = function (_path, args) {
+          // Validate that we have exactly 2 arguments and both are expressions
+          if (args.length !== 2 || !args[0] || !args[1]) {
+            console.warn('Invalid arguments for logical expression');
+            return;
+          }
           _path.replaceWith(
             t.logicalExpression(retStmt.argument.operator, args[0], args[1])
           )
